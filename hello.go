@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
@@ -10,19 +11,19 @@ func main() {
 	fmt.Printf("Hello, world.\n")
 }
 
-func doSomething() error {
-	err := os.MkdirAll("newdir", 0755)
+func doSomething() {
+	f, err := os.Create("test1.txt")
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
-	// (2) 次にディレクトリが削除される
-	defer os.RemoveAll("newdir")
-
-	f, err := os.Create("newdir/newfile")
-	if err != nil {
-		return err
-	}
-	// (1) 最初にファイルハンドルが閉じられる
 	defer f.Close()
-	return nil
+	f.Write([]byte("Hello"))
+
+	f, err = os.Create("test2.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	f.Write([]byte("World"))
 }
