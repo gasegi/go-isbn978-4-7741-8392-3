@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os"
 )
 
 func main() {
@@ -12,18 +10,9 @@ func main() {
 }
 
 func doSomething() {
-	f, err := os.Create("test1.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-	f.Write([]byte("Hello"))
+	var b1 byte = 'a' // => '97'
+	// var b2 byte = byte('あ') // ERROR
+	// var b3 byte = 'あ' // ERROR
 
-	f, err = os.Create("test2.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-
-	f.Write([]byte("World"))
+	fmt.Println(b1)
 }
