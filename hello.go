@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"os/exec"
 
-	"golang.org/x/text/encoding/japanese"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -14,15 +12,10 @@ func main() {
 }
 
 func doSomething() {
-	cmd := exec.Command("ipconfig")
-	b, err := cmd.CombinedOutput()
-	if err != nil {
-		log.Fatal(err)
-	}
-	// コマンド実行からの出力は CP932 であると限定し UTF-8 へ変換する
-	b, err = japanese.ShiftJIS.NewDecoder().Bytes(b)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Print(string(b))
+	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})
+
+	logrus.Info("succeeded")
+	logrus.Warn("not correct")
+	logrus.Error("something error")
+	logrus.Fatal("panic")
 }
