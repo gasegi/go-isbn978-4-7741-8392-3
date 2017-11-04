@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+
+	"golang.org/x/text/encoding/japanese"
 )
 
 func main() {
@@ -17,6 +19,10 @@ func doSomething() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// バイト配列 b は CP932 かもしれない
+	// コマンド実行からの出力は CP932 であると限定し UTF-8 へ変換する
+	b, err = japanese.ShiftJIS.NewDecoder().Bytes(b)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Print(string(b))
 }
