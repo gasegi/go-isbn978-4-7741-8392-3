@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/mattn/go-colorable"
 	"github.com/sirupsen/logrus"
 )
 
@@ -13,6 +14,7 @@ func main() {
 
 func doSomething() {
 	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})
+	logrus.SetOutput(colorable.NewColorableStdout())
 
 	logrus.Info("succeeded")
 	logrus.Warn("not correct")
