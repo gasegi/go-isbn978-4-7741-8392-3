@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/mattn/go-colorable"
-	"github.com/sirupsen/logrus"
+	"log"
+	"os/exec"
+	"runtime"
 )
 
 func main() {
@@ -13,11 +13,15 @@ func main() {
 }
 
 func doSomething() {
-	logrus.SetFormatter(&logrus.TextFormatter{ForceColors: true})
-	logrus.SetOutput(colorable.NewColorableStdout())
-
-	logrus.Info("succeeded")
-	logrus.Warn("not correct")
-	logrus.Error("something error")
-	logrus.Fatal("panic")
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "ipconfig")
+	} else {
+		cmd = exec.Command("/bin/sh", "-c", "ip addr")
+	}
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(output)
 }
