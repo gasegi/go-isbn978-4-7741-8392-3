@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"os/exec"
 )
 
 func main() {
@@ -10,9 +12,11 @@ func main() {
 }
 
 func doSomething() {
-	var b1 byte = 'a' // => '97'
-	// var b2 byte = byte('あ') // ERROR
-	// var b3 byte = 'あ' // ERROR
-
-	fmt.Println(b1)
+	cmd := exec.Command("ipconfig")
+	b, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Fatal(err)
+	}
+	// バイト配列 b は CP932 かもしれない
+	fmt.Print(string(b))
 }
